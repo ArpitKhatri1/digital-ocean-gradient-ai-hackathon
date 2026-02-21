@@ -18,8 +18,8 @@ type HeaderProps = {
 
 const HeaderItem = ({ Icon }: HeaderProps) => {
   return (
-    <div className=" h-12 w-12 rounded-lg bg-red-100 flex items-center justify-center ">
-      <Icon size={25} />
+    <div className=" h-9 w-9 rounded-lg bg-red-100 flex items-center justify-center ">
+      <Icon size={22} />
     </div>
   );
 };

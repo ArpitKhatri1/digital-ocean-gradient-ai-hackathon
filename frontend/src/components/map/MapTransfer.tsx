@@ -2,15 +2,14 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { type LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const position: LatLngExpression = [28.6139, 77.209]; // Delhi
+const position: LatLngExpression = [40.6139, -74.209]; // North, East
 
 const MapTransfer = () => {
   return (
     <MapContainer
       center={position}
-      zoom={5}
-      style={{ height: "100%", width: "100%" }}
-      className="mr-5"
+      zoom={7}
+      className="mr-8 mb-5 h-auto w-screen rounded-lg "
     >
       <TileLayer
         // attribution="&copy; OpenStreetMap contributors"
