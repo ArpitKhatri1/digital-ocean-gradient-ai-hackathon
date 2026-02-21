@@ -1,16 +1,29 @@
 from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from db.db import Base, engine, get_db
-from models.models import Hospital
-from schemas.response import HospitalResponse
+from models.models import Hospital, DrugApplication
 from typing import List
 import random
 import uuid
 
+from routers.medicines import router as medicines_router
+from routers.suppliers import router as suppliers_router
+
 app = FastAPI()
 
-# Base.metadata.drop_all(bind=engine)
-# Base.metadata.create_all(bind=engine)
+# ── CORS (allow frontend dev server) ──────────────────────────────────────
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ── Register routers ──────────────────────────────────────────────────────
+app.include_router(medicines_router)
+app.include_router(suppliers_router)
 
 @app.post("/test/add-random-hospital")
 def add_random_hospital(db: Session = Depends(get_db)):
@@ -49,15 +62,8 @@ def add_random_hospital(db: Session = Depends(get_db)):
 	data = {c.name: getattr(hospital, c.name) for c in hospital.__table__.columns}
 	return data
 
-@app.get("/gethospital",response_model= HospitalResponse)
-def get_hospitals(db:Session = Depends(get_db)) -> HospitalResponse:
-    hospital =  db.query(Hospital).first()
-    if not hospital:
-        return {
-            "id":1,
-            "name":"not found",
-            "latitude":2,
-            "longitude":3
-        }
+@app.get("/gethospital")
+def get_hospitals(db:Session = Depends(get_db)):
+    hospital =  db.query(DrugApplication).count()
     return hospital
     

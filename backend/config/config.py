@@ -1,9 +1,9 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings,SettingsConfigDict
+
 
 class Settings(BaseSettings):
+    model_config= SettingsConfigDict(env_file=".env")
     DATABASE_URL: str
-
-    class Config:
-        env_file = ".env"
+    OPENFDA_API_KEY: str
 
 settings = Settings()
